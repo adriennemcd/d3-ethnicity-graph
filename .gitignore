@@ -7,4 +7,4 @@ bower_components
 .inkwellignore
 .tmp
 .sass-cache
-.csv
+d3-ethnicity-graph/*csv
