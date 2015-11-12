@@ -1,0 +1,10 @@
+node_modules
+bower_components
+*.swp
+*.swo
+*.log
+.DS_Store
+.inkwellignore
+.tmp
+.sass-cache
+.csv
