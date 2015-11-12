@@ -1,0 +1,19 @@
+.chart rect {
+    fill: steelblue;
+  }
+
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+
+  .axis text {
+    font-size: 12px;
+  }
+
+  .chart .current {
+    fill: green;
+    cursor: pointer;
+  }
