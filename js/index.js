@@ -86,9 +86,15 @@ d3.csv('phlneighbs_wdata.csv', function(error, data) {
         .enter().append("rect")
             .attr("width", x1.rangeBand())
             .attr("x", function(d) { return x1(d.ethnicity); })
-            .attr("y", function(d) { return y(d.value); })
-            .attr("height", function(d) { return height - y(d.value); })
-            .style("fill", function(d) { return color(d.ethnicity); });
+            .attr("y", height)
+            .style("fill", function(d) { return color(d.ethnicity); })
+            .attr("height", 0)
+            .transition()
+            .duration(1800)
+            .attr({ y: function (d, i) { return y(d.value); },
+                    height: function (d, i) { return height - y(d.value); }
+            });
+
 
     var legend = svg.selectAll(".legend")
         .data(ethnNames.slice())
@@ -111,13 +117,5 @@ d3.csv('phlneighbs_wdata.csv', function(error, data) {
 });
 
 
-// .transition()
-// .duration(1500)
-// .attr({
-//   y: function (d, i) {
-//     return convert.y(d.age);
-//   },
-//   height: function (d, i) {
-//     return maxHeight - convert.y(d.age);
-//   }
+
 // });
