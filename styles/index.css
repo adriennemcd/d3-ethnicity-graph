@@ -16,3 +16,7 @@ body {
 .x.axis path {
   display: none;
 }
+
+.ticks {
+    color: orange;
+}
