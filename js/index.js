@@ -2,6 +2,7 @@
 // Modified from tutorial: http://bl.ocks.org/mbostock/3887051
 
 var neighbs = [];
+var selected;
 
 // Set up basic dimensions of svg, scales, and axes
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
@@ -38,20 +39,34 @@ d3.csv('phlneighbs_wdata.csv', function(error, data) {
             values: [d['African-American'],d['White'],d['Hispanic/Latino'],d['Asian'],d['Other']]
         });
     });
-    neighbs.forEach(function(d) {
-        render(d);
+
+    var select = d3.select("body")
+        .append("div")
+        .append("select")
+
+    select
+        .on("change", function(d) {
+        var value = d3.select(this).property("value");
+        neighbs.forEach(function(d) {
+            render(d, value);
+        });
     });
+
+    select.selectAll("option")
+        .data(neighbs)
+        .enter()
+        .append("option")
+        .attr("value", function(d) { return d.name; })
+        .text(function(d) { return d.name; });
 });
 
-function render(mapname) {
-    if(mapname.name === "Ludlow") {
+function render(mapname, value) {
+    if(mapname.name === value) {
         var svg = d3.select("div.chart").append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
           .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-        console.log(mapname.name + ", " + mapname.values);
 
         // Map the data to the x0, x1, and y scales
         x0.domain([mapname.name]);
