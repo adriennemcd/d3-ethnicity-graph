@@ -103,6 +103,7 @@ d3.csv('phlneighbs_wdata.csv', function(error, data) {
     neighb.selectAll("rect")
             .data(philly.values)
         .enter().append("rect")
+            .attr("class", "bar")
             .attr("width", x1.rangeBand())
             .attr("x", function(d, i) { return x1(philly.values[i]); })
             .attr("y", height)

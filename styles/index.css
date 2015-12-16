@@ -20,3 +20,14 @@ body {
 .ticks {
     color: orange;
 }
+
+select {
+    position: absolute;
+    top: 550px;
+}
+
+.data {
+    position: absolute;
+    top: 580px;
+    width: 90%;
+}
