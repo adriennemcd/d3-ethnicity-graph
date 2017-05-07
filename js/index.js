@@ -47,7 +47,7 @@ d3.csv('phlneighbs_wdata.csv', function(error, data) {
     });
 
     // create dropdown for neighborhood names
-    var select = d3.select("body")
+    var select = d3.select(".d3-chart__select")
         .append("div")
         .append("select")
 
@@ -67,7 +67,7 @@ d3.csv('phlneighbs_wdata.csv', function(error, data) {
         .text(function(d) { return d.name; });
 
     // Create svg element
-    var svg = d3.select("div.chart")
+    var svg = d3.select("div.d3-chart__graph")
           .append("svg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
