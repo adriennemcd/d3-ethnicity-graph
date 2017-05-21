@@ -68,6 +68,7 @@ var Chart = (function(window,d3) {
         chartWrapper.append("g").attr('id', 'x-axis').attr("class", "x axis");
         chartWrapper.append("g").attr("class", "y axis")
             .append("text")
+                .attr('class', 'axis__text')
                 .attr("transform", "rotate(-90)")
                 .attr("y", 6)
                 .attr("dy", ".71em")
@@ -93,18 +94,6 @@ var Chart = (function(window,d3) {
             .style("text-anchor", "end")
             .text(function(d) { return d; });
 
-        // add philly bar graph
-        phillyChart = chartWrapper.selectAll("mapname")
-                .data(count)
-            .enter().append("g")
-                .attr("class", "d3-chart__bar--philly");
-
-        phillyChart.selectAll("rect")
-                .data(philly.values)
-            .enter().append("rect")
-                .attr("class", "bar")
-                .attr("width", x1.rangeBand());
-
         // render the chart
         render();
     }
@@ -120,8 +109,8 @@ var Chart = (function(window,d3) {
 
         //update svg element width and height
         svg
-          .attr('width', width + margin.right + margin.left)
-          .attr('height', height + margin.top + margin.bottom);
+          .attr('width', width + margin.left)
+          .attr('height', height + margin.bottom);
         chartWrapper.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
         //update the axis
@@ -158,19 +147,11 @@ var Chart = (function(window,d3) {
         svg.select('.y.axis')
             .call(yAxis)
 
-        // Update position of philly chart and refresh width
-        phillyChart.attr("transform", function(d) { return "translate(" + x0(philly.name) + ",0)"; })
-                .selectAll('.bar')
-                .attr("width", x1.rangeBand())
-                .attr("x", function(d, i) { return x1(philly.values[i]); })
-                .attr("y", height)
-                .style("fill", function(d, i) { return color(philly.values[i]); })
-                .attr("height", 0)
-                .transition()
-                .duration(1800)
-                .attr({ y: function (d, i) { return y(philly.values[i]); },
-                        height: function (d, i) { return height - y(philly.values[i]); }
-                });
+        // clear out old philly bar chart (if there is one), and build a new one!
+        var bars = svg.select(".d3-chart__bar--philly");
+            bars.remove();
+
+        buildBarChart(philly, 'd3-chart__bar--philly', philly.values);
 
         // update position of legend
         svg.selectAll(".legend__item")
@@ -184,13 +165,40 @@ var Chart = (function(window,d3) {
     }
 
     function updateDimensions(winWidth) {
-        margin.top = 20;
+        margin.top = 5;
         margin.right = 20;
-        margin.left = 40;
+        margin.left = 35;
         margin.bottom = 30;
 
-        width = winWidth - margin.left - margin.right;
-        height = 500 - margin.top - margin.bottom;
+        width = winWidth - 40 - margin.left; //padding
+        //set max-width
+        width = width > 600 ? 600 : width;
+        height = .8 * width;
+    }
+
+    function buildBarChart(dataName, cls, bar) {
+        // Select data append to the x0 group elements
+        var chart = chartWrapper.selectAll(".mapname")
+                .data(count)
+            .enter().append("g")
+                .attr("class", cls)
+                .attr("transform", function(d) { return "translate(" + x0(dataName.name) + ",0)"; });
+
+        // Create rectangles within 'neighb' and append ethnicity data
+        chart.selectAll("rect")
+                .data(dataName.values)
+            .enter().append("rect")
+                .attr("class", "bar")
+                .attr("width", x1.rangeBand())
+                .attr("x", function(d, i) { return x1(bar[i]); })
+                .attr("y", height)
+                .style("fill", function(d, i) { return color(bar[i]); })
+                .attr("height", 0)
+                .transition()
+                .duration(1800)
+                .attr({ y: function (d, i) { return y(dataName.values[i]); },
+                        height: function (d, i) { return height - y(dataName.values[i]); }
+                });
     }
 
     function selectNeighborhood(mapname, value, svg) {
@@ -214,27 +222,7 @@ var Chart = (function(window,d3) {
                 .call(xAxis); //insert axis into element
 
             // Select data from the 'mapname' column and append to the x0 group elements
-            var neighb = chartWrapper.selectAll(".mapname")
-                    .data(count)
-                .enter().append("g")
-                    .attr("class", "d3-chart__bar--neighb")
-                    .attr("transform", function(d) { return "translate(" + x0(mapname.name) + ",0)"; });
-
-            // Create rectangles within 'neighb' and append ethnicity data
-            neighb.selectAll("rect")
-                    .data(mapname.values)
-                .enter().append("rect")
-                    .attr("class", "bar")
-                    .attr("width", x1.rangeBand())
-                    .attr("x", function(d, i) { return x1(widthRect[i]); })
-                    .attr("y", height)
-                    .style("fill", function(d, i) { return color(widthRect[i]); })
-                    .attr("height", 0)
-                    .transition()
-                    .duration(1800)
-                    .attr({ y: function (d, i) { return y(mapname.values[i]); },
-                            height: function (d, i) { return height - y(mapname.values[i]); }
-                    });
+            buildBarChart(mapname, 'd3-chart__bar--neighb', widthRect);
         }
     }
 

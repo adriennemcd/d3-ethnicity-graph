@@ -1,5 +1,17 @@
 body {
-  font: 10px sans-serif;
+    margin: 0;
+    padding: 0;
+    font: 10px sans-serif;
+}
+
+.inner-container {
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.title {
+    margin: 0;
 }
 
 .axis path,
@@ -9,25 +21,6 @@ body {
   shape-rendering: crispEdges;
 }
 
-.bar {
-  fill: steelblue;
-}
-
 .x.axis path {
   display: none;
-}
-
-.ticks {
-    color: orange;
-}
-
-select {
-    position: absolute;
-    top: 550px;
-}
-
-.data {
-    position: absolute;
-    top: 580px;
-    width: 90%;
 }
