@@ -40,8 +40,7 @@ var Chart = (function(window,d3) {
         });
 
         // create dropdown for neighborhood names
-        select = d3.select(".d3-chart__select")
-            .append("div")
+        select = d3.select(".d3-chart__select-container")
             .append("select")
 
         select

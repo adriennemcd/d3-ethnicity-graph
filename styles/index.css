@@ -4,6 +4,11 @@ body {
     font: 10px sans-serif;
 }
 
+header {
+    background: #2944BF;
+    color: white;
+}
+
 .inner-container {
     max-width: 650px;
     margin: 0 auto;
@@ -21,6 +26,66 @@ body {
   shape-rendering: crispEdges;
 }
 
+.axis__text { display: none; }
+
 .x.axis path {
   display: none;
+}
+
+.d3-chart {
+    position: relative;
+    min-height: 226px;
+    padding-bottom: 77px;
+}
+
+.d3-chart__select {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.d3-chart__select-prompt {
+    margin-bottom: 5px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.d3-chart__select-container {
+    display: table;
+    width: 100%;
+    height: 30px;
+    background: #2077b0;
+    border-radius: 3px;
+}
+
+.d3-chart__select select {
+    display: table-cell;
+    width: 100%;
+    height: 100%;
+    color: white;
+    vertical-align: middle;
+    background: transparent;
+    border: none;
+}
+
+@media screen and (min-width: 768px)  {
+    .axis__text { display: block; }
+
+    .d3-chart {
+        min-height: 510px;
+    }
+
+    .d3-chart__select {
+        left: 0;
+        right: 0;
+        margin: 30px auto 0;
+        width: 400px;
+    }
+}
+
+@media screen and (min-width: 1040px)  {
+    .d3-chart {
+
+    }
 }
