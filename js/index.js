@@ -11,7 +11,7 @@ var Chart = (function(window,d3) {
         values: [[0.4188],[0.3669],[0.1270],[0.0647],[0.0227]]
     };
     var margin = {};
-    var svg, select, chartWrapper, data, width, height, x0, x1, y, xAxis, yAxis, color;
+    var svg, select, chartWrapper, legend, legendItem, neighb, data, width, height, x0, x1, y, xAxis, yAxis, color;
 
     // load data, initialize chart
     d3.csv('phlneighbs_wdata.csv', init);
@@ -25,7 +25,7 @@ var Chart = (function(window,d3) {
         y = d3.scale.linear();
 
         color = d3.scale.ordinal()
-            .range(["#d0743c", "#a05d56", "#6b486b", "#7b6888", "#8a89a6"]);
+            .range(['#0EDD93', '#17AAA1', '#2077B0', '#2944BF', '#3312CE']);
 
         // initialize axes
         xAxis = d3.svg.axis().orient("bottom");
@@ -53,6 +53,7 @@ var Chart = (function(window,d3) {
             });
         });
 
+        // map data to dropdown options
         select.selectAll("option")
             .data(neighbs)
             .enter()
@@ -60,8 +61,50 @@ var Chart = (function(window,d3) {
             .attr("value", function(d) { return d.name; })
             .text(function(d) { return d.name; });
 
+        // add svg and chartWrapper elements
         svg = d3.select("div.d3-chart__graph").append("svg");
         chartWrapper = svg.append("g");
+
+        // add x and y axes
+        chartWrapper.append("g").attr("class", "x axis");
+        chartWrapper.append("g").attr("class", "y axis")
+            .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("Percent");
+
+        // add legend
+        legend = chartWrapper.append("g").attr("class", "legend");
+
+        legendItem = legend.selectAll(".legend__item")
+            .data(philly.ethn.slice())
+            .enter().append("g")
+            .attr("class", "legend__item");
+
+        legendItem.append("rect")
+            .attr("width", 18)
+            .attr("height", 18)
+            .style("fill", color);
+
+        legendItem.append("text")
+            .attr("y", 9)
+            .attr("dy", ".35em")
+            .style("text-anchor", "end")
+            .text(function(d) { return d; });
+
+        // add philly bar graph
+        neighb = chartWrapper.selectAll("mapname")
+                .data(count)
+            .enter().append("g")
+                .attr("class", "d3-chart__bar--philly");
+
+        neighb.selectAll("rect")
+                .data(philly.values)
+            .enter().append("rect")
+                .attr("class", "bar")
+                .attr("width", x1.rangeBand());
 
         // render the chart
         render();
@@ -73,15 +116,16 @@ var Chart = (function(window,d3) {
 
         //update x and y scales based on new dimensions
         x0.rangeRoundBands([0, width], .1) // .1 sets padding between each group of bands
+        x1.range([0, width]);
         y.range([height, 0]);
 
-        //update svg elements to new dimensions
+        //update svg element width and height
         svg
           .attr('width', width + margin.right + margin.left)
           .attr('height', height + margin.top + margin.bottom);
         chartWrapper.attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
-        //update the axis and line
+        //update the axis
         xAxis.scale(x0);
         yAxis.scale(y);
 
@@ -90,35 +134,27 @@ var Chart = (function(window,d3) {
         x1.domain(philly.values).rangeRoundBands([0, x0.rangeBand()]); // Define the range of the band groups as 0 to x0 range
         y.domain([0, 1]);
 
-        // Append a group element to the svg to contain the x axis with neighborhood names
-        chartWrapper.append("g")
-            .attr("class", "x axis")
+        // update position of x axis based on width
+        svg.select('.x.axis')
             .attr("transform", "translate(0," + height + ")")
             .call(xAxis); //insert axis into element
 
-        // Append a group element to the svg to contain the y axis with percentage values
-        chartWrapper.append("g")
-                .attr("class", "y axis")
-                .call(yAxis)
-            .append("text")
-                .attr("transform", "rotate(-90)")
-                .attr("y", 6)
-                .attr("dy", ".71em")
-                .style("text-anchor", "end")
-                .text("Percent");
+        // call y axis
+        svg.select('.y.axis')
+            .call(yAxis)
 
-        // Select and append g element and place in correct position
-        var neighb = chartWrapper.selectAll("mapname")
-                .data(count)
-            .enter().append("g")
-                .attr("class", "g")
-                .attr("transform", function(d) { return "translate(" + x0(philly.name) + ",0)"; });
+        // update position of philly bar
+        svg.select('.d3-chart__bar--philly')
+            .attr("transform", function(d) { return "translate(" + x0(philly.name) + ",0)"; });
+
+        // neighb = chartWrapper.selectAll("mapname")
+        //         .data(count)
+        //     .enter().append("g")
+        //         .attr("class", "d3-chart__bar--philly")
+        //         .attr("transform", function(d) { return "translate(" + x0(philly.name) + ",0)"; });
 
         // Create rectangles within 'neighb' and append ethnicity data
-        neighb.selectAll("rect")
-                .data(philly.values)
-            .enter().append("rect")
-                .attr("class", "bar")
+        neighb.selectAll('.bar')
                 .attr("width", x1.rangeBand())
                 .attr("x", function(d, i) { return x1(philly.values[i]); })
                 .attr("y", height)
@@ -130,24 +166,14 @@ var Chart = (function(window,d3) {
                         height: function (d, i) { return height - y(philly.values[i]); }
                 });
 
-        var legend = chartWrapper.selectAll(".legend")
-            .data(philly.ethn.slice())
-            .enter().append("g")
-            .attr("class", "legend")
+        svg.selectAll(".legend__item")
             .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
 
-        legend.append("rect")
-            .attr("x", width - 18)
-            .attr("width", 18)
-            .attr("height", 18)
-            .style("fill", color);
+        legend.selectAll("rect")
+            .attr("x", width - 18);
 
-        legend.append("text")
-            .attr("x", width - 24)
-            .attr("y", 9)
-            .attr("dy", ".35em")
-            .style("text-anchor", "end")
-            .text(function(d) { return d; });
+        legend.selectAll("text")
+            .attr("x", width - 24);
     }
 
     function updateDimensions(winWidth) {
@@ -165,7 +191,7 @@ var Chart = (function(window,d3) {
             // Clean up what's already there
             var axis = svg.select(".x");
             axis.remove();
-            var bars = svg.select(".selectNeighb");
+            var bars = svg.select(".d3-chart__bar--neighb");
             bars.remove();
 
             // Map the data to the x0, x1, and y scales
@@ -183,7 +209,7 @@ var Chart = (function(window,d3) {
             var neighb = chartWrapper.selectAll(".mapname")
                     .data(count)
                 .enter().append("g")
-                    .attr("class", "g selectNeighb")
+                    .attr("class", "d3-chart__bar--neighb")
                     .attr("transform", function(d) { return "translate(" + x0(mapname.name) + ",0)"; });
 
             // Create rectangles within 'neighb' and append ethnicity data
