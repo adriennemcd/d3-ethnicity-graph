@@ -56,7 +56,7 @@ header {
     display: table;
     width: 100%;
     height: 30px;
-    background: #2077b0;
+    background: rgba(37, 214, 83, 0.38);
     border-radius: 3px;
 }
 
@@ -64,11 +64,14 @@ header {
     display: table-cell;
     width: 100%;
     height: 100%;
-    color: white;
     font-size: 12px;
     vertical-align: middle;
     background: transparent;
     border: none;
+}
+
+.d3-chart__select option {
+    color: black;
 }
 
 .d3-tip {

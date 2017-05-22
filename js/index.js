@@ -178,17 +178,12 @@ var Chart = (function(window,d3) {
     }
 
     function buildBarChart(dataName, cls, bar) {
-        //tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return d; });
         tip = d3.tip()
             .attr('class', 'd3-tip')
             .offset([-10, 0])
             .html(function (d, i) { return '<span>' + (dataName.values[i] * 100).toFixed(2) + '%</span>'; });
-            // .html(function(d) {
-            // return "<strong>Frequency:</strong> <span style='color:red'>" + d.frequency + "</span>";
-            // })
-        svg.call(tip);
 
-        console.log(tip);
+        svg.call(tip);
 
         // Select data append to the x0 group elements
         var chart = chartWrapper.selectAll(".mapname")
