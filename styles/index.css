@@ -47,6 +47,7 @@ header {
 
 .d3-chart__select-prompt {
     margin-bottom: 5px;
+    font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;
 }
@@ -64,9 +65,47 @@ header {
     width: 100%;
     height: 100%;
     color: white;
+    font-size: 12px;
     vertical-align: middle;
     background: transparent;
     border: none;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+  transition: opacity ease-in-out .15s;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+.bar {
+    transition: opacity ease-in-out .15s;
+}
+.bar:hover {
+    opacity: 0.9;
 }
 
 @media screen and (min-width: 768px)  {
@@ -82,10 +121,14 @@ header {
         margin: 30px auto 0;
         width: 400px;
     }
+
+    .d3-chart__select-prompt, .d3-chart__select select {
+        font-size: 14px;
+    }
 }
 
 @media screen and (min-width: 1040px)  {
-    .d3-chart {
-
+    .d3-chart__select-prompt, .d3-chart__select select {
+        font-size: 16px;
     }
 }

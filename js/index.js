@@ -10,7 +10,7 @@ var Chart = (function(window,d3) {
         values: [[0.4188],[0.3669],[0.1270],[0.0647],[0.0227]]
     };
     var margin = {};
-    var svg, select, chartWrapper, legend, legendItem, phillyChart, neighbChart, data, width, height, x0, x1, y, xAxis, yAxis, color;
+    var svg, select, chartWrapper, tip, legend, legendItem, phillyChart, neighbChart, data, width, height, x0, x1, y, xAxis, yAxis, color;
 
     // load data, initialize chart
     d3.csv('phlneighbs_wdata.csv', init);
@@ -35,7 +35,8 @@ var Chart = (function(window,d3) {
             neighbs.push({
                 name: d.mapname,
                 ethn: [['African-American'],['White'],['Hispanic/Latino'],['Asian'],['Other']],
-                values: [d['African-American'],d['White'],d['Hispanic/Latino'],d['Asian'],d['Other']]
+                values: [d['African-American'],d['White'],d['Hispanic/Latino'],d['Asian'],d['Other']],
+
             });
         });
 
@@ -58,6 +59,7 @@ var Chart = (function(window,d3) {
             .append("option")
             .attr("value", function(d) { return d.name; })
             .text(function(d) { return d.name; });
+
 
         // add svg and chartWrapper elements
         svg = d3.select("div.d3-chart__graph").append("svg");
@@ -176,6 +178,18 @@ var Chart = (function(window,d3) {
     }
 
     function buildBarChart(dataName, cls, bar) {
+        //tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return d; });
+        tip = d3.tip()
+            .attr('class', 'd3-tip')
+            .offset([-10, 0])
+            .html(function (d, i) { return '<span>' + (dataName.values[i] * 100).toFixed(2) + '%</span>'; });
+            // .html(function(d) {
+            // return "<strong>Frequency:</strong> <span style='color:red'>" + d.frequency + "</span>";
+            // })
+        svg.call(tip);
+
+        console.log(tip);
+
         // Select data append to the x0 group elements
         var chart = chartWrapper.selectAll(".mapname")
                 .data(count)
@@ -193,11 +207,14 @@ var Chart = (function(window,d3) {
                 .attr("y", height)
                 .style("fill", function(d, i) { return color(bar[i]); })
                 .attr("height", 0)
+                .on('mouseover', tip.show)
+                .on('mouseout', tip.hide)
                 .transition()
                 .duration(1800)
                 .attr({ y: function (d, i) { return y(dataName.values[i]); },
                         height: function (d, i) { return height - y(dataName.values[i]); }
-                });
+                })
+
     }
 
     function selectNeighborhood(mapname, value, svg) {
