@@ -1,23 +1,40 @@
 <html>
-<head>
-    <link rel="stylesheet" href="styles/index.css"/>
-</head>
-<body>
-    <header>
-        <h1>Race and Ethnicity by Neighborhood</h1>
-    </header>
-    <div class="chart">
-    </div>
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="js/index.js"></script>
-<footer>
-    <div class="data">
-        <p>Sources: <br />
-        Philadelphia neighborhood boundaries: <a href="https://www.opendataphilly.org/dataset/philadelphia-neighborhoods" target="_blank">Open Data Philly</a><br />
-        Demographic data: <a href="http://factfinder.census.gov/bkmk/table/1.0/en/ACS/13_3YR/C03002" target="_blank">U.S. Census Bureau</a>, 2009-2013 5-Year American Community Survey, Hispanic or Latino by Race dataset.</p>
-        </p>For this analysis, 'White' is the non-Hispanic/Latinx white population, 'African-American' is the non-Hispanic/Latinx African-American population, 'Asian' is the non-Hispanic/Latinx Asian population, 'Other' is the non-Hispanic/Latinx American Indian, Alaskan Native, Hawaiian, Pacific Islander, Other race, or Two or More Races population, and 'Hispanic/Latino' is the Hispanic/Latinx population of any race.</p>
-        <p>Demographic data was downloaded at the Census Tract level.  The race/ethnicity percentages are approximate calculations based on a reaggregation of the data into neighbohoods using GIS analysis.</p>
-    </div>
-</footer>
-</body>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>Philly Race/Ethnicity by Neighborhood</title>
+        <meta name="description" content="Bar graph of Philly race/ethnicity by neighborhood">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles/index.css"/>
+    </head>
+    <body>
+        <header>
+            <div class="inner-container">
+                <h1 class="title">Philadelphia Race and Ethnicity by Neighborhood</h1>
+            </div>
+        </header>
+        <div class="inner-container">
+            <div class="d3-chart">
+                <div class="d3-chart__graph"></div>
+                <div class="d3-chart__select">
+                    <div class="d3-chart__select-prompt">Choose a neighborhood</div>
+                    <div class="d3-chart__select-container"></div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="inner-container">
+                <div class="data">
+                    <p>Sources: <br />
+                    Philadelphia neighborhood boundaries: <a href="https://www.opendataphilly.org/dataset/philadelphia-neighborhoods" target="_blank">Open Data Philly</a><br />
+                    Demographic data: <a href="http://factfinder.census.gov/bkmk/table/1.0/en/ACS/13_3YR/C03002" target="_blank">U.S. Census Bureau</a>, 2009-2013 5-Year American Community Survey, Hispanic or Latino by Race dataset.</p>
+                    <p>For this analyis, 'White' is the non-Hispanic/Latinx white population, 'African-American' is the non-Hispanic/Latinx African-American population, 'Asian' is the Non-Hispanic/Latinx Asian population, 'Other' is the non-Hispanic/Latinx American Indian, Alaskan Native, Hawaiian, Pacific Islander, Other race, or Two or More Races population, and 'Hispanic/Latino' is the Hispanic/Latinx population of any race.</p>
+                    <p>Demographic data was downloaded at the Census Tract level.  The race/ethnicity percentages are approximate calculations based on a reaggregation of the data into neighbohoods using GIS analysis.</p>
+                </div>
+            </div>
+        </footer>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+        <script src="js/index.js"></script>
+    </body>
 </html>

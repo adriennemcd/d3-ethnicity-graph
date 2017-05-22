@@ -1,5 +1,22 @@
 body {
-  font: 10px sans-serif;
+    margin: 0;
+    padding: 0;
+    font: 10px sans-serif;
+}
+
+header {
+    background: #2944BF;
+    color: white;
+}
+
+.inner-container {
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.title {
+    margin: 0;
 }
 
 .axis path,
@@ -9,25 +26,109 @@ body {
   shape-rendering: crispEdges;
 }
 
-.bar {
-  fill: steelblue;
-}
+.axis__text { display: none; }
 
 .x.axis path {
   display: none;
 }
 
-.ticks {
-    color: orange;
+.d3-chart {
+    position: relative;
+    min-height: 226px;
+    padding-bottom: 77px;
 }
 
-select {
+.d3-chart__select {
     position: absolute;
-    top: 550px;
+    bottom: 0;
+    width: 100%;
+    margin-top: 30px;
 }
 
-.data {
-    position: absolute;
-    top: 580px;
-    width: 90%;
+.d3-chart__select-prompt {
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.d3-chart__select-container {
+    display: table;
+    width: 100%;
+    height: 30px;
+    background: #2077b0;
+    border-radius: 3px;
+}
+
+.d3-chart__select select {
+    display: table-cell;
+    width: 100%;
+    height: 100%;
+    color: white;
+    font-size: 12px;
+    vertical-align: middle;
+    background: transparent;
+    border: none;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+  transition: opacity ease-in-out .15s;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+
+.bar {
+    transition: opacity ease-in-out .15s;
+}
+.bar:hover {
+    opacity: 0.9;
+}
+
+@media screen and (min-width: 768px)  {
+    .axis__text { display: block; }
+
+    .d3-chart {
+        min-height: 510px;
+    }
+
+    .d3-chart__select {
+        left: 0;
+        right: 0;
+        margin: 30px auto 0;
+        width: 400px;
+    }
+
+    .d3-chart__select-prompt, .d3-chart__select select {
+        font-size: 14px;
+    }
+}
+
+@media screen and (min-width: 1040px)  {
+    .d3-chart__select-prompt, .d3-chart__select select {
+        font-size: 16px;
+    }
 }
