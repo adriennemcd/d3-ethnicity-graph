@@ -1,5 +1,8 @@
 # d3-ethnicity-graph
-A d3 bar graph of race/ethnicity by neighborhood in Philadelphia
+A responsive d3 bar graph of race/ethnicity by neighborhood in Philadelphia
+
+## Intro
+While Philadelphia as a whole is a rather diverse place, geographic subsections are often extremely racially segregated.  For this project, I wanted to look at race and ethnicity on the neighborhood level, a scale that we're all familiar with.
 
 ## Set up
 1. Download or fork this repo
